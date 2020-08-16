@@ -1,4 +1,7 @@
-fun score() {
+import Exceptions.TooFewRollsException
+import Exceptions.TooManyRollsException
+
+fun score(): Int {
     var score = 0
     val frames = mutableListOf<Frame>()
     var shortGame = false
@@ -40,13 +43,13 @@ fun score() {
         score += frame.pins() + bonus
     }
     if (Rolls.rolls.size > 0) {
-        println("Hey Kingpin! You rolled too many balls!")
         Rolls.rolls.clear()
+        throw TooManyRollsException("Hey Kingpin! You rolled too many balls!")
     } else if (shortGame) {
-        println("You didn't roll enough balls!")
         Rolls.rolls.clear()
+        throw TooFewRollsException("You didn't roll enough balls!")
     } else {
         Rolls.rolls.clear()
-        println(score)
     }
+    return score
 }
